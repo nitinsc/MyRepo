@@ -1,0 +1,151 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+    public class BinaryTree
+    {
+        private BinaryNode rootNode;
+
+        public BinaryTree(int value)
+        {
+            //Initialize tree node with root node with no child nodes
+            rootNode = new BinaryNode(value);
+        }
+
+        public void OldInsert(int value)
+        {
+            var currentNode = Traverse(value);
+            var newNode = new BinaryNode(value);
+            if (value > currentNode.Value)
+            {
+                currentNode.RightNode=newNode;
+            }
+            else if (value < currentNode.Value)
+            {
+                currentNode.LeftNode = newNode;
+            }
+        }
+
+        public void Insert(int value)
+        {
+            var currentNode = rootNode;
+            var newNode = new BinaryNode(value);
+            while (currentNode != null)
+            {
+                if (value >= currentNode.Value)
+                {
+                    if (currentNode.RightNode == null)
+                    {
+                        currentNode.RightNode = newNode;
+                        break;
+                    }
+
+                    currentNode = currentNode.RightNode;
+                }
+                else if (value < currentNode.Value)
+                {
+                    if (currentNode.LeftNode == null)
+                    {
+                        currentNode.LeftNode = newNode;
+                        break;
+                    }
+                    currentNode = currentNode.LeftNode;
+                }
+            }
+        }
+
+        public void PrintTree()
+        {
+            var currentNode = rootNode;
+            while (currentNode != null)
+            {
+                Console.WriteLine($"Node:{currentNode.Value}; RightNode: {currentNode?.RightNode?.Value};LeftNode: {currentNode?.LeftNode?.Value}");
+                var rightNode = currentNode.RightNode;
+                Console.WriteLine($"Node:{rightNode?.Value}; RightNode: {rightNode?.RightNode?.Value};LeftNode: {rightNode?.LeftNode?.Value}");
+                var leftNode = currentNode.LeftNode;
+                Console.WriteLine($"Node:{leftNode?.Value}; RightNode: {leftNode?.RightNode?.Value};LeftNode: {leftNode?.LeftNode?.Value}");
+
+                break;
+            }
+        }
+
+        private BinaryNode Traverse(int value)
+        {
+            var currentNode = rootNode;
+            while (currentNode != null)
+            {
+                if (value >= currentNode.Value)
+                {
+                    if (currentNode.RightNode == null)
+                    {
+                        return currentNode;
+                    }
+
+                    currentNode = currentNode.RightNode;
+                }
+                else if (value < currentNode.Value)
+                {
+                    if (currentNode.LeftNode == null)
+                    {
+                        return currentNode;
+                    }
+                    currentNode = currentNode.LeftNode;
+                }
+            }
+
+            return currentNode;
+        }
+        
+        //Traverse and get the node which matches with value
+        public void LookUp(int value)
+        {
+            var currentNode = rootNode;
+            bool found = false;
+            while (currentNode != null)
+            {
+                if (value == currentNode.Value)
+                {
+                    found = true;
+                    Console.WriteLine($"Value: {value} found");
+                    break;
+                }
+                if (value > currentNode.Value)
+                {
+                    Console.WriteLine($"{currentNode.Value}");
+                    Console.WriteLine("traveled right-->");
+                    currentNode = currentNode.RightNode;
+                    
+                }
+                else if (value < currentNode.Value)
+                {
+                    Console.WriteLine($"{currentNode.Value}");
+                    Console.WriteLine("<--traveled left");
+                    currentNode = currentNode.LeftNode;
+                    
+                }
+            }
+
+            if (!found)
+            {
+                Console.WriteLine("Value is not found in tree");
+            }
+
+        }
+       
+    }
+
+    public class BinaryNode
+    {
+        public BinaryNode LeftNode { get; set; }
+        public BinaryNode RightNode { get; set; }
+        public int Value { get; set; }
+        public BinaryNode(int value)
+        {
+            Value = value;
+        }
+    }
+}
