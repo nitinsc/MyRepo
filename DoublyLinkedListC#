@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+    public class DoublyLinkedList<T>
+    {
+        private NodeForDoubleL<T> head;
+        private NodeForDoubleL<T> tail;
+        public DoublyLinkedList(T value)
+        {
+            head = new NodeForDoubleL<T>(value, null, null);
+            tail = head;
+        }
+
+        public void Append(T value)
+        {
+            var newNode = new NodeForDoubleL<T>(value, null, tail);
+            tail.Next = newNode;
+            tail = newNode;
+        }
+
+        public void PrintFromHead()
+        {
+            var temp = head;
+            Console.WriteLine("doubly linked list, from head");
+            while (temp != null)
+            {
+                Console.Write($"{temp.Value}");
+                temp = temp.Next;
+                if (temp != null)
+                {
+                    Console.Write(" -->>Next-->> ");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        public void PrintFromTail()
+        {
+            var temp = tail;
+            Console.WriteLine("doubly linked list, start from tail");
+            while (temp != null)
+            {
+                Console.Write($"{temp.Value}");
+                temp = temp.Previous;
+                if (temp != null)
+                {
+                    Console.Write(" -->>Previous-->> ");
+                }
+            }
+            Console.WriteLine();
+        }
+
+    }
+
+    class NodeForDoubleL<T>
+    {
+        public NodeForDoubleL<T> Next { get; set; }
+        public NodeForDoubleL<T> Previous { get; set; }
+        public T Value { get; }
+
+        public NodeForDoubleL(T value, NodeForDoubleL<T> next, NodeForDoubleL<T> previous )
+        {
+            Value = value;
+            Next = next;
+            Previous = previous;
+        }
+    }
+    
+}
