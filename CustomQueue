@@ -1,0 +1,112 @@
+public class CustomQueue<T>:ICustomQueue<T>
+    {
+        private CustomLinkedList<T> myCustomLinkedList = new CustomLinkedList<T>();
+
+        public void Enqueue(T value)
+        {
+            myCustomLinkedList.Append(value);
+        }
+
+        public void Display()
+        {
+            myCustomLinkedList.Print();
+        }
+
+        public T Dequeue()
+        {
+            if (myCustomLinkedList.IsEmpty())
+            {
+                //throw new NotSupportedException("No items in the list");
+                Console.WriteLine("No items in the list");
+                return default;
+            }
+            return myCustomLinkedList.RemoveFirstElement();
+        }
+    }
+
+    public class CustomLinkedList<T>
+    {
+        private CustomNode<T> head;
+        private CustomNode<T> tail;
+
+        public void Append(T value)
+        {
+            if (head == null)
+            {
+                head = new CustomNode<T>(value, null);
+                tail = head;
+                return;
+            }
+            var newNode = new CustomNode<T>(value, null);
+            tail.NextNode = newNode;
+            tail = newNode;
+        }
+
+        public void Print()
+        {
+            var temp = head;
+            Console.WriteLine("Current Queue");
+            while (temp != null)
+            {
+                Console.Write($"{temp.Value}");
+                temp = temp.NextNode;
+                if (temp != null)
+                {
+                    Console.Write(" --next >> ");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        public bool IsEmpty()
+        {
+            return head == null;
+        }
+
+        //For Queue
+        public T RemoveFirstElement()
+        {
+            var temp = head;
+            var nextHead = head.NextNode;
+            head = nextHead;
+            return temp.Value;
+        }
+
+        //For Stack use doubly linked list?
+        //public T RemoveLastElement(T value)
+        //{
+        //    var temp = head;
+        //    Console.WriteLine("linked list");
+        //    while (temp != null)
+        //    {
+        //        temp = temp.NextNode;
+        //        if (temp != null)
+        //        {
+        //            Console.Write(" -->> ");
+        //        }
+        //    }
+        //}
+    }
+
+    public class CustomNode<T>
+    {
+        public CustomNode<T> NextNode { get; set; }
+
+
+        public T Value { get; set; }
+
+        public CustomNode(T value, CustomNode<T> next)
+        {
+            Value = value;
+            NextNode = next;
+        }
+    }
+
+    public interface ICustomQueue<T>
+    {
+        //Adds to queue
+        void Enqueue(T value);
+
+        //Takes out element FIFO fashion
+        T Dequeue();
+    }
