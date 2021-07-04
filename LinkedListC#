@@ -61,6 +61,21 @@ class LinkedList<T>
                 temp=veryNextNode;
             }
         }
+        
+        public void Reverse()
+        {
+            var currentNode = head;
+            tail = head;
+            Node<T> previousNode = null;
+            while (currentNode!=null)
+            {
+                var nextNode = currentNode.NextNode;
+                currentNode.NextNode = previousNode;
+                previousNode = currentNode;
+                currentNode = nextNode;
+            }
+            head = previousNode;
+        }
 
 
         //10>>5>>16>>40; 10;5;20;16;40
