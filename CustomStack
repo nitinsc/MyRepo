@@ -1,0 +1,98 @@
+using System;
+
+
+namespace ConsoleApp1
+{
+    public class CustomStack<T> : ICustomStack<T>
+    {
+        private LinkedListForStack<T> myCustomLinkedList = new LinkedListForStack<T>();
+
+        public void Push(T value)
+        {
+            myCustomLinkedList.Append(value);
+        }
+
+        public T Pop()
+        {
+            if (myCustomLinkedList.IsEmpty())
+            {
+                //Handle it /exception or whatever
+                return default;
+            }
+
+            return myCustomLinkedList.Remove();
+        }
+
+        public void Display()
+        {
+            myCustomLinkedList.Print();
+        }
+    }
+
+    public interface ICustomStack<T>
+    {
+        void Push(T value);
+
+        T Pop();
+    }
+
+    public class LinkedListForStack<T>
+    {
+        private NodeForStack<T> top;
+        private NodeForStack<T> bottom;
+
+        public void Append(T value)
+        {
+            if (bottom == null)
+            {
+                bottom = new NodeForStack<T>(value, null);
+                top = bottom;
+                return;
+            }
+
+            var newNode = new NodeForStack<T>(value, null);
+            var temp = top;
+            newNode.PreviousNode = temp;
+            top = newNode;
+        }
+
+        public T Remove()
+        {
+            var temp = top.PreviousNode;
+            top = temp;
+            return top.Value;
+        }
+
+        public void Print()
+        {
+            var temp = top;
+            Console.WriteLine("Current elements in Stack: ....");
+            while (temp != null)
+            {
+                Console.WriteLine($"{temp.Value}");
+                temp = temp.PreviousNode;
+            }
+
+            Console.WriteLine();
+        }
+
+        public bool IsEmpty()
+        {
+            return top == null || bottom == null;
+        }
+    }
+
+    public class NodeForStack<T>
+    {
+        public NodeForStack<T> PreviousNode { get; set; }
+
+
+        public T Value { get; set; }
+
+        public NodeForStack(T value, NodeForStack<T> previous)
+        {
+            Value = value;
+            PreviousNode = previous;
+        }
+    }
+}
