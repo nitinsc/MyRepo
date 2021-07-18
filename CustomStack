@@ -23,6 +23,11 @@ namespace ConsoleApp1
             return myCustomLinkedList.Remove();
         }
 
+        public T Peek()
+        {
+            return myCustomLinkedList.GetTopElement();
+        }
+
         public void Display()
         {
             myCustomLinkedList.Print();
@@ -34,6 +39,10 @@ namespace ConsoleApp1
         void Push(T value);
 
         T Pop();
+
+        //Gets the top most element
+        T Peek();
+
     }
 
     public class LinkedListForStack<T>
@@ -54,6 +63,11 @@ namespace ConsoleApp1
             var temp = top;
             newNode.PreviousNode = temp;
             top = newNode;
+        }
+
+        public T GetTopElement()
+        {
+            return top.Value;
         }
 
         public T Remove()
