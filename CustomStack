@@ -14,11 +14,11 @@ namespace ConsoleApp1
 
         public T Pop()
         {
-            if (myCustomLinkedList.IsEmpty())
-            {
-                //Handle it /exception or whatever
-                return default;
-            }
+            //if (myCustomLinkedList.IsEmpty())
+            //{
+            //    //Handle it /exception or whatever
+            //    return default;
+            //}
 
             return myCustomLinkedList.Remove();
         }
@@ -72,9 +72,17 @@ namespace ConsoleApp1
 
         public T Remove()
         {
+            if (top==null)
+            {
+                Console.WriteLine("nothing to remove");
+                bottom = top; //clear all
+                return default;
+            }
+
+            var currentTopMostValue = top.Value;
             var temp = top.PreviousNode;
             top = temp;
-            return top.Value;
+            return currentTopMostValue;
         }
 
         public void Print()
